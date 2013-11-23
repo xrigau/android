@@ -44,13 +44,16 @@ public class CreateGistActivityTest extends ActivityTest<CreateGistActivity> {
      * Create Gist with initial text
      */
     public void testCreateWithInitialText() {
-        String expected = "gist content";
-
-        setActivityIntent(new Intent().putExtra(Intent.EXTRA_TEXT, expected));
+        String expected = "initialContent";
+        setUpIntent(expected);
         getActivity();
 
         onView(withId(R.id.m_apply)).check(matches(isEnabled()));
         onView(withId(R.id.et_gist_content)).check(matches(withText(expected)));
+    }
+
+    private void setUpIntent(String expected) {
+        setActivityIntent(new Intent().putExtra(Intent.EXTRA_TEXT, expected));
     }
 
     /**
@@ -65,5 +68,10 @@ public class CreateGistActivityTest extends ActivityTest<CreateGistActivity> {
 
         onView(withId(R.id.et_gist_content)).perform(typeText("someText"));
         onView(withId(R.id.m_apply)).check(matches(isEnabled()));
+    }
+
+    public void testCreateGistWithEmptyTextIsProhibited() throws Throwable {
+        getActivity();
+        testButtonIsDisabledDependingOnEditTextContent(R.id.m_apply, R.id.et_gist_content);
     }
 }

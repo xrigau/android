@@ -15,14 +15,6 @@
  */
 package com.github.mobile.uitests.gist;
 
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
-import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isEnabled;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
-import static org.hamcrest.Matchers.not;
-
 import com.github.mobile.R;
 import com.github.mobile.ui.gist.CreateCommentActivity;
 import com.github.mobile.uitests.ActivityTest;
@@ -46,10 +38,13 @@ public class CreateCommentActivityTest extends ActivityTest<CreateCommentActivit
     protected void setUp() throws Exception {
         super.setUp();
 
-        Gist gist = new Gist().setId("123").setUser(new User().setLogin("abc"));
-        setActivityIntent(CreateCommentActivity.createIntent(gist));
-
+        setUpIntent();
         getActivity();
+    }
+
+    private void setUpIntent() {
+        Gist gist = new Gist().setId("someId").setUser(new User().setLogin("someLogin"));
+        setActivityIntent(CreateCommentActivity.createIntent(gist));
     }
 
     /**
@@ -58,12 +53,6 @@ public class CreateCommentActivityTest extends ActivityTest<CreateCommentActivit
      * @throws Throwable
      */
     public void testEmptyCommentIsProhitibed() throws Throwable {
-        onView(withId(R.id.m_apply)).check(matches(not(isEnabled())));
-
-        onView(withId(R.id.et_comment)).perform(typeText("someText"));
-        onView(withId(R.id.m_apply)).check(matches(isEnabled()));
-
-        onView(withId(R.id.et_comment)).perform(clearText());
-        onView(withId(R.id.m_apply)).check(matches(not(isEnabled())));
+        testButtonIsDisabledDependingOnEditTextContent(R.id.m_apply, R.id.et_comment);
     }
 }

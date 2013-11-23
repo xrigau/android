@@ -15,6 +15,13 @@
  */
 package com.github.mobile.uitests;
 
+import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
+import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
+import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isEnabled;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.Matchers.not;
 import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 
@@ -37,5 +44,15 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
      */
     public void testActivityIsCreated() {
         assertNotNull(getActivity());
+    }
+
+    public void testButtonIsDisabledDependingOnEditTextContent(int buttonId, int editTextId) throws Throwable {
+        onView(withId(buttonId)).check(matches(not(isEnabled())));
+
+        onView(withId(editTextId)).perform(typeText("someText"));
+        onView(withId(buttonId)).check(matches(isEnabled()));
+
+        onView(withId(editTextId)).perform(clearText());
+        onView(withId(buttonId)).check(matches(not(isEnabled())));
     }
 }

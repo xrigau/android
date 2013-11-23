@@ -15,14 +15,6 @@
  */
 package com.github.mobile.uitests.commit;
 
-import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.clearText;
-import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.typeText;
-import static com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions.matches;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isEnabled;
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
-import static org.hamcrest.Matchers.not;
-
 import com.github.mobile.R;
 import com.github.mobile.ui.commit.CreateCommentActivity;
 import com.github.mobile.uitests.ActivityTest;
@@ -46,12 +38,15 @@ public class CreateCommentActivityTest extends ActivityTest<CreateCommentActivit
     protected void setUp() throws Exception {
         super.setUp();
 
-        User user = new User().setLogin("owner");
-        Repository repo = new Repository().setName("name").setOwner(user);
-        String commit = "abcdef";
-        setActivityIntent(CreateCommentActivity.createIntent(repo, commit));
-
+        setUpIntent();
         getActivity();
+    }
+
+    private void setUpIntent() {
+        User user = new User().setLogin("someOwner");
+        Repository repo = new Repository().setName("someName").setOwner(user);
+        String commit = "someCommit";
+        setActivityIntent(CreateCommentActivity.createIntent(repo, commit));
     }
 
     /**
@@ -60,12 +55,6 @@ public class CreateCommentActivityTest extends ActivityTest<CreateCommentActivit
      * @throws Throwable
      */
     public void testEmptyCommentIsProhitibed() throws Throwable {
-        onView(withId(R.id.m_apply)).check(matches(not(isEnabled())));
-
-        onView(withId(R.id.et_comment)).perform(typeText("someText"));
-        onView(withId(R.id.m_apply)).check(matches(isEnabled()));
-
-        onView(withId(R.id.et_comment)).perform(clearText());
-        onView(withId(R.id.m_apply)).check(matches(not(isEnabled())));
+        testButtonIsDisabledDependingOnEditTextContent(R.id.m_apply, R.id.et_comment);
     }
 }
