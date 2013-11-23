@@ -12,7 +12,6 @@
     <modules>
         <module>app</module>
         <module>ui-espresso-tests</module>
-        <module>integration-tests</module>
     </modules>
 
     <properties>
@@ -32,6 +31,15 @@
             <url>https://github.com/novoda/public-mvn-repo/raw/master/releases</url>
         </repository>
     </repositories>
+
+    <profiles>
+        <profile>
+            <id>integration-tests</id>
+            <modules>
+                <module>integration-tests</module>
+            </modules>
+        </profile>
+    </profiles>
 
     <build>
         <pluginManagement>
