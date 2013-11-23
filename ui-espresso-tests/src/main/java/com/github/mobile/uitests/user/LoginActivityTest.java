@@ -23,10 +23,8 @@ import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMat
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
 import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
-import android.accounts.AccountManager;
 
 import com.github.mobile.R;
-import com.github.mobile.accounts.AccountUtils;
 import com.github.mobile.accounts.LoginActivity;
 import com.github.mobile.uitests.ActivityTest;
 
@@ -47,13 +45,6 @@ public class LoginActivityTest extends ActivityTest<LoginActivity> {
         super.setUp();
 
         getActivity();
-    }
-
-    /**
-     * Verify authenticator is registered
-     */
-    public void testHasAuthenticator() {
-        assertTrue(AccountUtils.hasAuthenticator(AccountManager.get(getActivity())));
     }
 
     /**
