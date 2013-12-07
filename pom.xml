@@ -11,18 +11,36 @@
 
     <modules>
         <module>app</module>
-        <module>integration-tests</module>
+        <module>ui-espresso-tests</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <android.version>4.0.1.2</android.version>
     </properties>
+
     <scm>
         <connection>scm:git:git://github.com/github/android.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/github/android.git</developerConnection>
         <url>https://github.com/github/android</url>
     </scm>
+
+    <repositories>
+        <repository>
+            <id>novoda-public-mvn-repo</id>
+            <url>https://github.com/novoda/public-mvn-repo/raw/master/releases</url>
+        </repository>
+    </repositories>
+
+    <profiles>
+        <profile>
+            <id>integration-tests</id>
+            <modules>
+                <module>integration-tests</module>
+            </modules>
+        </profile>
+    </profiles>
+
     <build>
         <pluginManagement>
             <plugins>
